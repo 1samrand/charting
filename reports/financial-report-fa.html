@@ -142,11 +142,6 @@
 
     .insights li { margin-bottom: 10px; }
 
-    .note {
-      border-right: 4px solid var(--primary);
-      background: #eff6ff;
-    }
-
     .section { margin-top: 18px; }
 
     @media (max-width: 900px) {
@@ -166,13 +161,13 @@
 
     <section class="grid two-col section">
       <article class="card">
-        <h2>درآمد، سود ناخالص و سود عملیات در حال تداوم قبل از مالیات</h2>
+        <h2>درآمد، سود ناخالص و سود عملیات قبل از مالیات</h2>
         <div id="profitChart" class="chart"></div>
         <div class="legend">
           <span style="--color: var(--primary)">درآمد عملیاتی</span>
           <span style="--color: var(--cyan)">سود ناخالص</span>
           <span style="--color: var(--success)">سود عملیاتی</span>
-          <span style="--color: var(--purple)">سود عملیات در حال تداوم قبل از مالیات</span>
+          <span style="--color: var(--purple)">سود عملیات قبل از مالیات</span>
         </div>
       </article>
 
@@ -189,7 +184,7 @@
         <div class="legend">
           <span style="--color: var(--cyan)">حاشیه سود ناخالص</span>
           <span style="--color: var(--success)">حاشیه سود عملیاتی</span>
-          <span style="--color: var(--purple)">حاشیه سود عملیات در حال تداوم قبل از مالیات</span>
+          <span style="--color: var(--purple)">حاشیه سود عملیات قبل از مالیات</span>
         </div>
       </article>
 
@@ -221,11 +216,6 @@
       </article>
     </section>
 
-    <section class="card section note">
-      <h2>دامنه این نسخه</h2>
-      <p>این گزارش فقط ردیف‌هایی را تحلیل می‌کند که در داده جدید تا «سود عملیات در حال تداوم قبل از مالیات» آمده‌اند. ردیف‌های بعد از آن در این نسخه وارد محاسبات و نمودارها نشده‌اند.</p>
-    </section>
-
     <section class="card section">
       <h2>جدول شاخص‌های اصلی</h2>
       <div class="table-wrap">
@@ -243,8 +233,8 @@
               <th>سایر درآمدها</th>
               <th>سود عملیاتی</th>
               <th>حاشیه عملیاتی</th>
-              <th>سود عملیات در حال تداوم قبل از مالیات</th>
-              <th>حاشیه سود عملیات در حال تداوم قبل از مالیات</th>
+              <th>سود عملیات قبل از مالیات</th>
+              <th>حاشیه سود عملیات قبل از مالیات</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -311,8 +301,8 @@
         ["درآمد عملیاتی کل", fmt(totals.revenue), data.unit],
         ["حاشیه سود ناخالص کل", fmtPct(pct(totals.grossProfit, totals.revenue)), "سود ناخالص / درآمد"],
         ["حاشیه سود عملیاتی کل", fmtPct(pct(totals.operatingProfit, totals.revenue)), "سود عملیاتی / درآمد"],
-        ["حاشیه سود عملیات در حال تداوم قبل از مالیات", fmtPct(pct(totals.continuingProfitBeforeTax, totals.revenue)), "تا ردیف قبل از مالیات"],
-        ["بهترین فصل از نظر سود عملیات در حال تداوم قبل از مالیات", data.seasons[bestSeasonIndex], fmt(data.continuingProfitBeforeTax[bestSeasonIndex])],
+        ["حاشیه سود عملیات قبل از مالیات", fmtPct(pct(totals.continuingProfitBeforeTax, totals.revenue)), "سود عملیات / درآمد"],
+        ["بهترین فصل سود عملیات قبل از مالیات", data.seasons[bestSeasonIndex], fmt(data.continuingProfitBeforeTax[bestSeasonIndex])],
         ["بالاترین فشار بهای تمام شده", data.seasons[highestCostSeasonIndex], fmtPct(pct(data.cogs[highestCostSeasonIndex], data.revenue[highestCostSeasonIndex]))]
       ];
 
@@ -331,8 +321,8 @@
       const summer = data.seasons.indexOf("تابستان");
       const winter = data.seasons.indexOf("زمستان");
       const items = [
-        `پاییز با ${fmtPct(pct(data.revenue[autumn], totals.revenue))} از درآمد کل، بیشترین سهم درآمد و بالاترین سود عملیات در حال تداوم قبل از مالیات را دارد.`,
-        `حاشیه سود عملیات در حال تداوم قبل از مالیات از ${fmtPct(pct(data.continuingProfitBeforeTax[summer], data.revenue[summer]))} در تابستان به ${fmtPct(pct(data.continuingProfitBeforeTax[autumn], data.revenue[autumn]))} در پاییز رسیده است.`,
+        `پاییز با ${fmtPct(pct(data.revenue[autumn], totals.revenue))} از درآمد کل، بیشترین سهم درآمد و بالاترین سود عملیات قبل از مالیات را دارد.`,
+        `حاشیه سود عملیات قبل از مالیات از ${fmtPct(pct(data.continuingProfitBeforeTax[summer], data.revenue[summer]))} در تابستان به ${fmtPct(pct(data.continuingProfitBeforeTax[autumn], data.revenue[autumn]))} در پاییز رسیده است.`,
         `نسبت بهای تمام شده در تابستان ${fmtPct(pct(data.cogs[summer], data.revenue[summer]))} است و نسبت به سایر فصل‌ها فشار بیشتری روی سود ناخالص ایجاد کرده است.`,
         `هزینه فروش، اداری و عمومی در زمستان به ${fmtPct(pct(data.salesAdmin[winter], data.revenue[winter]))} از درآمد رسیده و نسبت به فصل‌های دیگر بالاتر است.`,
         `سایر درآمدها در پاییز ${fmt(data.otherIncome[autumn])} ${data.unit} است و بخش مهمی از جهش سود عملیاتی همان فصل را توضیح می‌دهد.`
@@ -494,12 +484,12 @@
       { label: "درآمد عملیاتی", values: data.revenue, color: colors.revenue },
       { label: "سود ناخالص", values: data.grossProfit, color: colors.gross },
       { label: "سود عملیاتی", values: data.operatingProfit, color: colors.operating },
-      { label: "سود عملیات در حال تداوم قبل از مالیات", values: data.continuingProfitBeforeTax, color: colors.beforeTax }
+      { label: "سود عملیات قبل از مالیات", values: data.continuingProfitBeforeTax, color: colors.beforeTax }
     ]);
     lineChart("marginChart", [
       { label: "حاشیه سود ناخالص", values: data.grossProfit.map((v, i) => pct(v, data.revenue[i])), color: colors.gross },
       { label: "حاشیه سود عملیاتی", values: data.operatingProfit.map((v, i) => pct(v, data.revenue[i])), color: colors.operating },
-      { label: "حاشیه سود عملیات در حال تداوم قبل از مالیات", values: data.continuingProfitBeforeTax.map((v, i) => pct(v, data.revenue[i])), color: colors.beforeTax }
+      { label: "حاشیه سود عملیات قبل از مالیات", values: data.continuingProfitBeforeTax.map((v, i) => pct(v, data.revenue[i])), color: colors.beforeTax }
     ], 55);
     stackedExpenseRatioChart();
     groupedBarChart("otherIncomeChart", [
@@ -515,7 +505,7 @@
       { label: "سایر درآمدها", value: totals.otherIncome, color: colors.otherIncome },
       { label: "سود عملیاتی", value: totals.operatingProfit, color: colors.operating },
       { label: "هزینه مالی", value: totals.financeCost, color: colors.finance },
-      { label: "سود عملیات در حال تداوم قبل از مالیات", value: totals.continuingProfitBeforeTax, color: colors.beforeTax }
+      { label: "سود عملیات قبل از مالیات", value: totals.continuingProfitBeforeTax, color: colors.beforeTax }
     ]);
     metricsTable();
   </script>
