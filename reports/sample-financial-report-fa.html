@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>نمونه گزارش فصلی سود و زیان</title>
+  <title>گزارش فصلی سود و زیان</title>
   <style>
     :root {
       --bg: #f6f7fb;
@@ -16,12 +16,11 @@
       --warning: #d97706;
       --danger: #dc2626;
       --purple: #7c3aed;
+      --cyan: #0891b2;
       --shadow: 0 14px 34px rgba(23, 32, 51, 0.08);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -43,9 +42,7 @@
       padding: 0 18px;
     }
 
-    h1, h2, h3, p {
-      margin-top: 0;
-    }
+    h1, h2, h3, p { margin-top: 0; }
 
     .subtitle {
       color: rgba(255, 255, 255, 0.78);
@@ -58,12 +55,12 @@
     }
 
     .kpis {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       margin-bottom: 18px;
     }
 
     .two-col {
-      grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.8fr);
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
     }
 
     .card {
@@ -80,7 +77,7 @@
     }
 
     .kpi-value {
-      font-size: 24px;
+      font-size: 23px;
       font-weight: 700;
       margin-top: 8px;
     }
@@ -134,53 +131,34 @@
       background: #f8fafc;
     }
 
-    tr:last-child td {
-      border-bottom: 0;
-    }
+    tr:last-child td { border-bottom: 0; }
 
-    .table-wrap {
-      overflow-x: auto;
-    }
+    .table-wrap { overflow-x: auto; }
 
     .insights {
       margin: 0;
       padding-right: 20px;
     }
 
-    .insights li {
-      margin-bottom: 10px;
+    .insights li { margin-bottom: 10px; }
+
+    .note {
+      border-right: 4px solid var(--primary);
+      background: #eff6ff;
     }
 
-    .warning {
-      border-right: 4px solid var(--warning);
-      background: #fffbeb;
-    }
-
-    .danger {
-      border-right: 4px solid var(--danger);
-      background: #fef2f2;
-    }
-
-    .section {
-      margin-top: 18px;
-    }
+    .section { margin-top: 18px; }
 
     @media (max-width: 900px) {
-      .kpis,
-      .two-col {
-        grid-template-columns: 1fr;
-      }
-
-      main {
-        margin-top: -16px;
-      }
+      .two-col { grid-template-columns: 1fr; }
+      main { margin-top: -16px; }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>نمونه گزارش فصلی سود و زیان</h1>
-    <p class="subtitle">سال مالی 1404 - واحد: میلیون ریال - خروجی اولیه برای تبدیل فایل اکسل به گزارش و نمودار کاربردی</p>
+    <h1>گزارش فصلی سود و زیان</h1>
+    <p class="subtitle">سال مالی 1404 - واحد: میلیون ریال</p>
   </header>
 
   <main>
@@ -188,12 +166,13 @@
 
     <section class="grid two-col section">
       <article class="card">
-        <h2>درآمد و سود در فصل‌ها</h2>
-        <div id="barChart" class="chart"></div>
+        <h2>درآمد، سود ناخالص و سود عملیات در حال تداوم قبل از مالیات</h2>
+        <div id="profitChart" class="chart"></div>
         <div class="legend">
           <span style="--color: var(--primary)">درآمد عملیاتی</span>
+          <span style="--color: var(--cyan)">سود ناخالص</span>
           <span style="--color: var(--success)">سود عملیاتی</span>
-          <span style="--color: var(--purple)">سود خالص</span>
+          <span style="--color: var(--purple)">سود عملیات در حال تداوم قبل از مالیات</span>
         </div>
       </article>
 
@@ -205,38 +184,46 @@
 
     <section class="grid two-col section">
       <article class="card">
-        <h2>روند حاشیه سود</h2>
+        <h2>روند حاشیه‌ها نسبت به درآمد</h2>
         <div id="marginChart" class="chart"></div>
         <div class="legend">
-          <span style="--color: var(--success)">حاشیه سود ناخالص</span>
-          <span style="--color: var(--primary)">حاشیه سود عملیاتی</span>
-          <span style="--color: var(--purple)">حاشیه سود خالص</span>
+          <span style="--color: var(--cyan)">حاشیه سود ناخالص</span>
+          <span style="--color: var(--success)">حاشیه سود عملیاتی</span>
+          <span style="--color: var(--purple)">حاشیه سود عملیات در حال تداوم قبل از مالیات</span>
         </div>
       </article>
 
       <article class="card">
-        <h2>سهم فصل‌ها از درآمد کل</h2>
-        <div id="shareChart" class="chart"></div>
+        <h2>فشار هزینه‌ها به تفکیک فصل</h2>
+        <div id="expenseRatioChart" class="chart"></div>
+        <div class="legend">
+          <span style="--color: var(--danger)">بهای تمام شده</span>
+          <span style="--color: var(--warning)">فروش، اداری و عمومی</span>
+          <span style="--color: var(--primary)">حقوق</span>
+          <span style="--color: var(--muted)">هزینه مالی</span>
+        </div>
       </article>
     </section>
 
     <section class="grid two-col section">
       <article class="card">
-        <h2>ساختار هزینه و سود کل</h2>
-        <div id="totalChart" class="chart"></div>
+        <h2>سایر درآمدها و اثر آن بر سود عملیاتی</h2>
+        <div id="otherIncomeChart" class="chart"></div>
+        <div class="legend">
+          <span style="--color: var(--purple)">سایر درآمدها</span>
+          <span style="--color: var(--success)">سود عملیاتی</span>
+        </div>
       </article>
 
       <article class="card">
-        <h2>کنترل کیفیت داده</h2>
-        <div class="card warning">
-          <h3>ناسازگاری فرمول سود خالص</h3>
-          <p>منظور از «سود قبل از مالیات» همان ردیف «سود عملیات در حال تداوم قبل از مالیات» در فایل شماست. در بهار، سود خالص تقریبا برابر این ردیف منهای «هزینه غیر قابل پیش‌بینی» است؛ اما در تابستان، پاییز و زمستان برابر همین ردیف به علاوه «هزینه غیر قابل پیش‌بینی» شده است. قبل از اتوماتیک‌سازی گزارش، باید علامت یا ماهیت این ردیف مشخص شود.</p>
-        </div>
-        <div class="card danger" style="margin-top: 12px;">
-          <h3>مالیات فصلی نامشخص</h3>
-          <p>ردیف «سال جاری» فقط در ستون کل عدد دارد. برای تحلیل فصلی باید مشخص شود این عدد بین فصل‌ها تسهیم می‌شود یا فقط در گزارش کل نمایش داده می‌شود.</p>
-        </div>
+        <h2>ساختار کل دوره</h2>
+        <div id="totalStructureChart" class="chart"></div>
       </article>
+    </section>
+
+    <section class="card section note">
+      <h2>دامنه این نسخه</h2>
+      <p>این گزارش فقط ردیف‌هایی را تحلیل می‌کند که در داده جدید تا «سود عملیات در حال تداوم قبل از مالیات» آمده‌اند. ردیف‌های بعد از آن در این نسخه وارد محاسبات و نمودارها نشده‌اند.</p>
     </section>
 
     <section class="card section">
@@ -246,14 +233,18 @@
           <thead>
             <tr>
               <th>فصل</th>
-              <th>درآمد</th>
+              <th>درآمد عملیاتی</th>
+              <th>بهای تمام شده</th>
+              <th>نسبت بهای تمام شده</th>
               <th>سود ناخالص</th>
               <th>حاشیه ناخالص</th>
+              <th>هزینه فروش/اداری</th>
+              <th>هزینه حقوق</th>
+              <th>سایر درآمدها</th>
               <th>سود عملیاتی</th>
               <th>حاشیه عملیاتی</th>
-              <th>سود خالص</th>
-              <th>حاشیه خالص</th>
-              <th>سهم از درآمد کل</th>
+              <th>سود عملیات در حال تداوم قبل از مالیات</th>
+              <th>حاشیه سود عملیات در حال تداوم قبل از مالیات</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -269,18 +260,26 @@
       revenue: [278677733494, 420679574947, 718774897242, 370521139303],
       cogs: [171820090022, 284876233088, 434697132345, 234228308338],
       grossProfit: [106857643472, 135803341859, 284077764897, 136292830965],
+      salesAdmin: [18710873601, 16678346964, 53163733459, 41669717369],
+      salary: [28351294955, 23737367592, 24675825573, 37764787070],
+      otherIncome: [1262633483, 4996673829, 98434868347, 841087493],
+      otherExpenses: [0, 0, 0, 0],
       operatingProfit: [61058108399, 124121668724, 329348899785, 95464201089],
-      profitBeforeTax: [60704156845, 124072404075, 328518385716, 94538323697],
-      unexpectedExpense: [6070415685, 12407240408, 32851838572, 9453832370],
-      netProfit: [54633741161, 136479644483, 361370224288, 103992156067]
+      financeCost: [353951554, 49264649, 830514069, 925877392],
+      nonOperatingIncomeExpenses: [0, 0, 0, 0],
+      continuingProfitBeforeTax: [60704156845, 124072404075, 328518385716, 94538323697]
     };
 
     const colors = {
       revenue: "#2563eb",
+      gross: "#0891b2",
       operating: "#16a34a",
-      net: "#7c3aed",
-      gross: "#16a34a",
+      beforeTax: "#7c3aed",
       cogs: "#dc2626",
+      salesAdmin: "#d97706",
+      salary: "#2563eb",
+      finance: "#667085",
+      otherIncome: "#7c3aed",
       muted: "#667085",
       grid: "#e4e7ec"
     };
@@ -290,17 +289,31 @@
     const fmt = (value) => new Intl.NumberFormat("fa-IR").format(Math.round(value));
     const fmtPct = (value) => `${new Intl.NumberFormat("fa-IR", { maximumFractionDigits: 1 }).format(value)}٪`;
 
+    function getTotals() {
+      return {
+        revenue: sum(data.revenue),
+        cogs: sum(data.cogs),
+        grossProfit: sum(data.grossProfit),
+        salesAdmin: sum(data.salesAdmin),
+        salary: sum(data.salary),
+        otherIncome: sum(data.otherIncome),
+        operatingProfit: sum(data.operatingProfit),
+        financeCost: sum(data.financeCost),
+        continuingProfitBeforeTax: sum(data.continuingProfitBeforeTax)
+      };
+    }
+
     function kpiCards() {
-      const revenueTotal = sum(data.revenue);
-      const grossTotal = sum(data.grossProfit);
-      const operatingTotal = sum(data.operatingProfit);
-      const netTotal = sum(data.netProfit);
-      const bestSeasonIndex = data.netProfit.indexOf(Math.max(...data.netProfit));
+      const totals = getTotals();
+      const bestSeasonIndex = data.continuingProfitBeforeTax.indexOf(Math.max(...data.continuingProfitBeforeTax));
+      const highestCostSeasonIndex = data.cogs.map((value, i) => pct(value, data.revenue[i])).indexOf(Math.max(...data.cogs.map((value, i) => pct(value, data.revenue[i]))));
       const cards = [
-        ["درآمد کل", fmt(revenueTotal), data.unit],
-        ["حاشیه سود ناخالص کل", fmtPct(pct(grossTotal, revenueTotal)), "پس از بهای تمام شده"],
-        ["حاشیه سود عملیاتی کل", fmtPct(pct(operatingTotal, revenueTotal)), "پس از هزینه‌های عملیاتی"],
-        ["بهترین فصل از نظر سود خالص", data.seasons[bestSeasonIndex], fmt(data.netProfit[bestSeasonIndex])]
+        ["درآمد عملیاتی کل", fmt(totals.revenue), data.unit],
+        ["حاشیه سود ناخالص کل", fmtPct(pct(totals.grossProfit, totals.revenue)), "سود ناخالص / درآمد"],
+        ["حاشیه سود عملیاتی کل", fmtPct(pct(totals.operatingProfit, totals.revenue)), "سود عملیاتی / درآمد"],
+        ["حاشیه سود عملیات در حال تداوم قبل از مالیات", fmtPct(pct(totals.continuingProfitBeforeTax, totals.revenue)), "تا ردیف قبل از مالیات"],
+        ["بهترین فصل از نظر سود عملیات در حال تداوم قبل از مالیات", data.seasons[bestSeasonIndex], fmt(data.continuingProfitBeforeTax[bestSeasonIndex])],
+        ["بالاترین فشار بهای تمام شده", data.seasons[highestCostSeasonIndex], fmtPct(pct(data.cogs[highestCostSeasonIndex], data.revenue[highestCostSeasonIndex]))]
       ];
 
       document.getElementById("kpis").innerHTML = cards.map(([label, value, note]) => `
@@ -313,23 +326,24 @@
     }
 
     function insights() {
-      const revenueTotal = sum(data.revenue);
-      const netTotal = sum(data.netProfit);
+      const totals = getTotals();
       const autumn = data.seasons.indexOf("پاییز");
-      const spring = data.seasons.indexOf("بهار");
+      const summer = data.seasons.indexOf("تابستان");
+      const winter = data.seasons.indexOf("زمستان");
       const items = [
-        `پاییز با ${fmtPct(pct(data.revenue[autumn], revenueTotal))} از درآمد کل، بزرگ‌ترین فصل درآمدی است و هم‌زمان بالاترین سود خالص را دارد.`,
-        `حاشیه سود عملیاتی از ${fmtPct(pct(data.operatingProfit[spring], data.revenue[spring]))} در بهار به ${fmtPct(pct(data.operatingProfit[autumn], data.revenue[autumn]))} در پاییز رسیده که جهش اصلی عملکرد را نشان می‌دهد.`,
-        `حاشیه سود خالص کل بر اساس اعداد ثبت‌شده ${fmtPct(pct(netTotal, revenueTotal))} است؛ این عدد باید بعد از رفع ناسازگاری ردیف هزینه غیر قابل پیش‌بینی دوباره محاسبه شود.`,
-        `سایر درآمدها در پاییز اثر قابل توجهی روی سود عملیاتی دارد و برای گزارش مدیریتی بهتر است جداگانه تحلیل شود.`
+        `پاییز با ${fmtPct(pct(data.revenue[autumn], totals.revenue))} از درآمد کل، بیشترین سهم درآمد و بالاترین سود عملیات در حال تداوم قبل از مالیات را دارد.`,
+        `حاشیه سود عملیات در حال تداوم قبل از مالیات از ${fmtPct(pct(data.continuingProfitBeforeTax[summer], data.revenue[summer]))} در تابستان به ${fmtPct(pct(data.continuingProfitBeforeTax[autumn], data.revenue[autumn]))} در پاییز رسیده است.`,
+        `نسبت بهای تمام شده در تابستان ${fmtPct(pct(data.cogs[summer], data.revenue[summer]))} است و نسبت به سایر فصل‌ها فشار بیشتری روی سود ناخالص ایجاد کرده است.`,
+        `هزینه فروش، اداری و عمومی در زمستان به ${fmtPct(pct(data.salesAdmin[winter], data.revenue[winter]))} از درآمد رسیده و نسبت به فصل‌های دیگر بالاتر است.`,
+        `سایر درآمدها در پاییز ${fmt(data.otherIncome[autumn])} ${data.unit} است و بخش مهمی از جهش سود عملیاتی همان فصل را توضیح می‌دهد.`
       ];
       document.getElementById("insights").innerHTML = items.map((item) => `<li>${item}</li>`).join("");
     }
 
     function groupedBarChart(containerId, series) {
-      const width = 900;
-      const height = 330;
-      const pad = { top: 24, right: 44, bottom: 48, left: 34 };
+      const width = 920;
+      const height = 340;
+      const pad = { top: 24, right: 48, bottom: 52, left: 34 };
       const chartW = width - pad.left - pad.right;
       const chartH = height - pad.top - pad.bottom;
       const maxValue = Math.max(...series.flatMap((item) => item.values));
@@ -337,38 +351,39 @@
       const barW = groupW / (series.length + 1.2);
       const y = (value) => pad.top + chartH - (value / maxValue) * chartH;
 
-      const bars = data.seasons.map((season, i) => {
-        const x0 = pad.left + i * groupW + barW * 0.45;
-        return series.map((item, j) => {
-          const x = x0 + j * barW;
-          const h = chartH - (y(item.values[i]) - pad.top);
-          return `<rect x="${x}" y="${y(item.values[i])}" width="${barW * 0.72}" height="${h}" rx="6" fill="${item.color}">
-            <title>${item.label} ${season}: ${fmt(item.values[i])}</title>
-          </rect>`;
-        }).join("") + `<text x="${pad.left + i * groupW + groupW / 2}" y="${height - 14}" text-anchor="middle" fill="${colors.muted}" font-size="13">${season}</text>`;
-      }).join("");
-
       const grid = [0, 0.25, 0.5, 0.75, 1].map((ratio) => {
         const gy = pad.top + chartH - ratio * chartH;
         return `<line x1="${pad.left}" x2="${width - pad.right}" y1="${gy}" y2="${gy}" stroke="${colors.grid}" />
           <text x="${width - pad.right + 8}" y="${gy + 4}" fill="${colors.muted}" font-size="11">${fmt(maxValue * ratio)}</text>`;
       }).join("");
 
+      const bars = data.seasons.map((season, i) => {
+        const x0 = pad.left + i * groupW + barW * 0.45;
+        const rects = series.map((item, j) => {
+          const value = item.values[i];
+          const x = x0 + j * barW;
+          const h = chartH - (y(value) - pad.top);
+          return `<rect x="${x}" y="${y(value)}" width="${barW * 0.72}" height="${h}" rx="6" fill="${item.color}">
+            <title>${item.label} ${season}: ${fmt(value)}</title>
+          </rect>`;
+        }).join("");
+        return rects + `<text x="${pad.left + i * groupW + groupW / 2}" y="${height - 16}" text-anchor="middle" fill="${colors.muted}" font-size="13">${season}</text>`;
+      }).join("");
+
       document.getElementById(containerId).innerHTML = `
-        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار ستونی درآمد و سود">
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار ستونی فصل‌ها">
           ${grid}
           ${bars}
         </svg>
       `;
     }
 
-    function lineChart(containerId, series) {
+    function lineChart(containerId, series, maxValue) {
       const width = 900;
       const height = 330;
-      const pad = { top: 24, right: 44, bottom: 48, left: 34 };
+      const pad = { top: 24, right: 46, bottom: 48, left: 34 };
       const chartW = width - pad.left - pad.right;
       const chartH = height - pad.top - pad.bottom;
-      const maxValue = Math.ceil(Math.max(...series.flatMap((item) => item.values)) / 10) * 10;
       const x = (i) => pad.left + (i / (data.seasons.length - 1)) * chartW;
       const y = (value) => pad.top + chartH - (value / maxValue) * chartH;
 
@@ -389,94 +404,119 @@
       }).join("");
 
       const labels = data.seasons.map((season, i) => `<text x="${x(i)}" y="${height - 14}" text-anchor="middle" fill="${colors.muted}" font-size="13">${season}</text>`).join("");
-
-      document.getElementById(containerId).innerHTML = `
-        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار خطی حاشیه سود">
-          ${grid}
-          ${lines}
-          ${labels}
-        </svg>
-      `;
+      document.getElementById(containerId).innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار روند حاشیه‌ها">${grid}${lines}${labels}</svg>`;
     }
 
-    function shareChart() {
-      const total = sum(data.revenue);
-      const width = 420;
-      const height = 320;
-      const barW = 58;
-      const max = Math.max(...data.revenue);
-      const bars = data.revenue.map((value, i) => {
-        const h = (value / max) * 190;
-        const x = 48 + i * 88;
-        const y = 236 - h;
-        return `
-          <rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="10" fill="${[colors.primary, colors.operating, colors.net, colors.cogs][i]}">
-            <title>${data.seasons[i]}: ${fmtPct(pct(value, total))}</title>
-          </rect>
-          <text x="${x + barW / 2}" y="${y - 8}" text-anchor="middle" fill="${colors.muted}" font-size="12">${fmtPct(pct(value, total))}</text>
-          <text x="${x + barW / 2}" y="266" text-anchor="middle" fill="${colors.muted}" font-size="13">${data.seasons[i]}</text>
-        `;
-      }).join("");
-      document.getElementById("shareChart").innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="سهم فصل‌ها از درآمد کل">${bars}</svg>`;
-    }
-
-    function totalChart() {
-      const width = 720;
-      const height = 320;
-      const totals = [
-        ["درآمد", sum(data.revenue), colors.revenue],
-        ["بهای تمام شده", sum(data.cogs), colors.cogs],
-        ["سود ناخالص", sum(data.grossProfit), colors.gross],
-        ["سود عملیاتی", sum(data.operatingProfit), colors.operating],
-        ["سود خالص", sum(data.netProfit), colors.net]
+    function stackedExpenseRatioChart() {
+      const width = 520;
+      const height = 330;
+      const pad = { top: 26, right: 42, bottom: 52, left: 30 };
+      const chartH = height - pad.top - pad.bottom;
+      const barW = 64;
+      const maxPct = 90;
+      const parts = [
+        { label: "بهای تمام شده", values: data.cogs, color: colors.cogs },
+        { label: "فروش، اداری و عمومی", values: data.salesAdmin, color: colors.salesAdmin },
+        { label: "حقوق", values: data.salary, color: colors.salary },
+        { label: "هزینه مالی", values: data.financeCost, color: colors.finance }
       ];
-      const max = Math.max(...totals.map((item) => item[1]));
-      const bars = totals.map(([label, value, color], i) => {
-        const w = (value / max) * 500;
-        const y = 36 + i * 52;
+
+      const bars = data.seasons.map((season, i) => {
+        const x = pad.left + 48 + i * 105;
+        let yCursor = pad.top + chartH;
+        let totalRatio = 0;
+        const rects = parts.map((part) => {
+          const ratio = pct(part.values[i], data.revenue[i]);
+          totalRatio += ratio;
+          const h = (ratio / maxPct) * chartH;
+          yCursor -= h;
+          return `<rect x="${x}" y="${yCursor}" width="${barW}" height="${h}" fill="${part.color}">
+            <title>${part.label} ${season}: ${fmtPct(ratio)}</title>
+          </rect>`;
+        }).join("");
+        return `${rects}
+          <text x="${x + barW / 2}" y="${yCursor - 8}" text-anchor="middle" fill="${colors.muted}" font-size="12">${fmtPct(totalRatio)}</text>
+          <text x="${x + barW / 2}" y="${height - 18}" text-anchor="middle" fill="${colors.muted}" font-size="13">${season}</text>`;
+      }).join("");
+
+      const grid = [0, 30, 60, 90].map((value) => {
+        const y = pad.top + chartH - (value / maxPct) * chartH;
+        return `<line x1="${pad.left}" x2="${width - pad.right}" y1="${y}" y2="${y}" stroke="${colors.grid}" />
+          <text x="${width - pad.right + 8}" y="${y + 4}" fill="${colors.muted}" font-size="11">${fmtPct(value)}</text>`;
+      }).join("");
+
+      document.getElementById("expenseRatioChart").innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار فشار هزینه‌ها">${grid}${bars}</svg>`;
+    }
+
+    function horizontalBarChart(containerId, items) {
+      const width = 720;
+      const height = Math.max(320, 42 + items.length * 46);
+      const max = Math.max(...items.map((item) => item.value));
+      const bars = items.map((item, i) => {
+        const w = max ? (item.value / max) * 500 : 0;
+        const y = 28 + i * 46;
         return `
-          <text x="690" y="${y + 22}" text-anchor="end" fill="${colors.muted}" font-size="13">${label}</text>
-          <rect x="${650 - w}" y="${y}" width="${w}" height="28" rx="7" fill="${color}">
-            <title>${label}: ${fmt(value)}</title>
+          <text x="690" y="${y + 21}" text-anchor="end" fill="${colors.muted}" font-size="13">${item.label}</text>
+          <rect x="${650 - w}" y="${y}" width="${w}" height="26" rx="7" fill="${item.color}">
+            <title>${item.label}: ${fmt(item.value)}</title>
           </rect>
-          <text x="${640 - w}" y="${y + 20}" text-anchor="end" fill="${colors.muted}" font-size="12">${fmt(value)}</text>
+          <text x="${640 - w}" y="${y + 19}" text-anchor="end" fill="${colors.muted}" font-size="12">${fmt(item.value)}</text>
         `;
       }).join("");
-      document.getElementById("totalChart").innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="ساختار هزینه و سود کل">${bars}</svg>`;
+      document.getElementById(containerId).innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار میله‌ای افقی">${bars}</svg>`;
     }
 
     function metricsTable() {
-      const totalRevenue = sum(data.revenue);
       const tbody = document.querySelector("#metricsTable tbody");
       tbody.innerHTML = data.seasons.map((season, i) => `
         <tr>
           <td>${season}</td>
           <td>${fmt(data.revenue[i])}</td>
+          <td>${fmt(data.cogs[i])}</td>
+          <td>${fmtPct(pct(data.cogs[i], data.revenue[i]))}</td>
           <td>${fmt(data.grossProfit[i])}</td>
           <td>${fmtPct(pct(data.grossProfit[i], data.revenue[i]))}</td>
+          <td>${fmt(data.salesAdmin[i])}</td>
+          <td>${fmt(data.salary[i])}</td>
+          <td>${fmt(data.otherIncome[i])}</td>
           <td>${fmt(data.operatingProfit[i])}</td>
           <td>${fmtPct(pct(data.operatingProfit[i], data.revenue[i]))}</td>
-          <td>${fmt(data.netProfit[i])}</td>
-          <td>${fmtPct(pct(data.netProfit[i], data.revenue[i]))}</td>
-          <td>${fmtPct(pct(data.revenue[i], totalRevenue))}</td>
+          <td>${fmt(data.continuingProfitBeforeTax[i])}</td>
+          <td>${fmtPct(pct(data.continuingProfitBeforeTax[i], data.revenue[i]))}</td>
         </tr>
       `).join("");
     }
 
+    const totals = getTotals();
     kpiCards();
     insights();
-    groupedBarChart("barChart", [
+    groupedBarChart("profitChart", [
       { label: "درآمد عملیاتی", values: data.revenue, color: colors.revenue },
+      { label: "سود ناخالص", values: data.grossProfit, color: colors.gross },
       { label: "سود عملیاتی", values: data.operatingProfit, color: colors.operating },
-      { label: "سود خالص", values: data.netProfit, color: colors.net }
+      { label: "سود عملیات در حال تداوم قبل از مالیات", values: data.continuingProfitBeforeTax, color: colors.beforeTax }
     ]);
     lineChart("marginChart", [
       { label: "حاشیه سود ناخالص", values: data.grossProfit.map((v, i) => pct(v, data.revenue[i])), color: colors.gross },
-      { label: "حاشیه سود عملیاتی", values: data.operatingProfit.map((v, i) => pct(v, data.revenue[i])), color: colors.revenue },
-      { label: "حاشیه سود خالص", values: data.netProfit.map((v, i) => pct(v, data.revenue[i])), color: colors.net }
+      { label: "حاشیه سود عملیاتی", values: data.operatingProfit.map((v, i) => pct(v, data.revenue[i])), color: colors.operating },
+      { label: "حاشیه سود عملیات در حال تداوم قبل از مالیات", values: data.continuingProfitBeforeTax.map((v, i) => pct(v, data.revenue[i])), color: colors.beforeTax }
+    ], 55);
+    stackedExpenseRatioChart();
+    groupedBarChart("otherIncomeChart", [
+      { label: "سایر درآمدها", values: data.otherIncome, color: colors.otherIncome },
+      { label: "سود عملیاتی", values: data.operatingProfit, color: colors.operating }
     ]);
-    shareChart();
-    totalChart();
+    horizontalBarChart("totalStructureChart", [
+      { label: "درآمد عملیاتی", value: totals.revenue, color: colors.revenue },
+      { label: "بهای تمام شده", value: totals.cogs, color: colors.cogs },
+      { label: "سود ناخالص", value: totals.grossProfit, color: colors.gross },
+      { label: "هزینه فروش/اداری", value: totals.salesAdmin, color: colors.salesAdmin },
+      { label: "هزینه حقوق", value: totals.salary, color: colors.salary },
+      { label: "سایر درآمدها", value: totals.otherIncome, color: colors.otherIncome },
+      { label: "سود عملیاتی", value: totals.operatingProfit, color: colors.operating },
+      { label: "هزینه مالی", value: totals.financeCost, color: colors.finance },
+      { label: "سود عملیات در حال تداوم قبل از مالیات", value: totals.continuingProfitBeforeTax, color: colors.beforeTax }
+    ]);
     metricsTable();
   </script>
 </body>
