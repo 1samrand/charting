@@ -55,7 +55,7 @@
     }
 
     .kpis {
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       margin-bottom: 18px;
     }
 
@@ -208,11 +208,13 @@
     .section { margin-top: 18px; }
 
     @media (max-width: 900px) {
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .two-col { grid-template-columns: 1fr; }
       main { margin-top: -16px; }
     }
 
     @media (max-width: 560px) {
+      .kpis { grid-template-columns: 1fr; }
       .structure-head { display: none; }
       .structure-row { grid-template-columns: 1fr; }
       .structure-value,
