@@ -135,6 +135,69 @@
 
     .table-wrap { overflow-x: auto; }
 
+    .structure-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .structure-head,
+    .structure-row {
+      display: grid;
+      grid-template-columns: minmax(130px, 1.1fr) minmax(150px, 0.9fr) minmax(90px, 0.5fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .structure-head {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .structure-row {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .structure-row:last-child { border-bottom: 0; }
+
+    .structure-label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .structure-value {
+      color: var(--text);
+      direction: ltr;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .structure-ratio {
+      color: var(--muted);
+      direction: ltr;
+      text-align: left;
+      font-size: 12px;
+    }
+
+    .structure-bar {
+      grid-column: 1 / -1;
+      height: 10px;
+      border-radius: 999px;
+      background: #eef2f7;
+      overflow: hidden;
+    }
+
+    .structure-fill {
+      height: 100%;
+      width: var(--width);
+      border-radius: inherit;
+      background: var(--color);
+    }
+
     .insights {
       margin: 0;
       padding-right: 20px;
@@ -147,6 +210,13 @@
     @media (max-width: 900px) {
       .two-col { grid-template-columns: 1fr; }
       main { margin-top: -16px; }
+    }
+
+    @media (max-width: 560px) {
+      .structure-head { display: none; }
+      .structure-row { grid-template-columns: 1fr; }
+      .structure-value,
+      .structure-ratio { text-align: right; }
     }
   </style>
 </head>
@@ -438,22 +508,32 @@
       document.getElementById("expenseRatioChart").innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار فشار هزینه‌ها">${grid}${bars}</svg>`;
     }
 
-    function horizontalBarChart(containerId, items) {
-      const width = 720;
-      const height = Math.max(320, 42 + items.length * 46);
-      const max = Math.max(...items.map((item) => item.value));
-      const bars = items.map((item, i) => {
-        const w = max ? (item.value / max) * 500 : 0;
-        const y = 28 + i * 46;
+    function totalStructureList(containerId, items, baseValue) {
+      const maxRatio = Math.max(...items.map((item) => pct(item.value, baseValue)));
+      const rows = items.map((item) => {
+        const ratio = pct(item.value, baseValue);
+        const width = maxRatio ? (ratio / maxRatio) * 100 : 0;
         return `
-          <text x="690" y="${y + 21}" text-anchor="end" fill="${colors.muted}" font-size="13">${item.label}</text>
-          <rect x="${650 - w}" y="${y}" width="${w}" height="26" rx="7" fill="${item.color}">
-            <title>${item.label}: ${fmt(item.value)}</title>
-          </rect>
-          <text x="${640 - w}" y="${y + 19}" text-anchor="end" fill="${colors.muted}" font-size="12">${fmt(item.value)}</text>
+          <div class="structure-row">
+            <div class="structure-label">${item.label}</div>
+            <div class="structure-value">${fmt(item.value)}</div>
+            <div class="structure-ratio">${fmtPct(ratio)}</div>
+            <div class="structure-bar" aria-hidden="true">
+              <div class="structure-fill" style="--width: ${width}%; --color: ${item.color}"></div>
+            </div>
+          </div>
         `;
       }).join("");
-      document.getElementById(containerId).innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار میله‌ای افقی">${bars}</svg>`;
+      document.getElementById(containerId).innerHTML = `
+        <div class="structure-list">
+          <div class="structure-head">
+            <span>عنوان</span>
+            <span>مبلغ کل</span>
+            <span>نسبت به درآمد</span>
+          </div>
+          ${rows}
+        </div>
+      `;
     }
 
     function metricsTable() {
@@ -496,7 +576,7 @@
       { label: "سایر درآمدها", values: data.otherIncome, color: colors.otherIncome },
       { label: "سود عملیاتی", values: data.operatingProfit, color: colors.operating }
     ]);
-    horizontalBarChart("totalStructureChart", [
+    totalStructureList("totalStructureChart", [
       { label: "درآمد عملیاتی", value: totals.revenue, color: colors.revenue },
       { label: "بهای تمام شده", value: totals.cogs, color: colors.cogs },
       { label: "سود ناخالص", value: totals.grossProfit, color: colors.gross },
@@ -506,7 +586,7 @@
       { label: "سود عملیاتی", value: totals.operatingProfit, color: colors.operating },
       { label: "هزینه مالی", value: totals.financeCost, color: colors.finance },
       { label: "سود عملیات قبل از مالیات", value: totals.continuingProfitBeforeTax, color: colors.beforeTax }
-    ]);
+    ], totals.revenue);
     metricsTable();
   </script>
 </body>
