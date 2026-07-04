@@ -1,0 +1,207 @@
+{
+  "title": "گزارش فصلی سود و زیان",
+  "currency_unit": "میلیون ریال",
+  "fiscal_year": "1404",
+  "periods": [
+    {
+      "label": "بهار",
+      "year": "1404"
+    },
+    {
+      "label": "تابستان",
+      "year": "1404"
+    },
+    {
+      "label": "پاییز",
+      "year": "1404"
+    },
+    {
+      "label": "زمستان",
+      "year": "1404"
+    }
+  ],
+  "total_period_label": "کل تا 1403//12/30",
+  "rows": [
+    {
+      "key": "operating_revenue",
+      "label": "درآمدهای عملیاتی",
+      "type": "revenue",
+      "values": [
+        278677733494,
+        420679574947,
+        718774897242,
+        370521139303
+      ],
+      "total": 1788653344986
+    },
+    {
+      "key": "cost_of_revenue",
+      "label": "بهای تمام شده درآمدهای عملیاتی",
+      "type": "expense",
+      "values": [
+        171820090022,
+        284876233088,
+        434697132345,
+        234228308338
+      ],
+      "ratios_to_revenue": [
+        61.66,
+        67.72,
+        60.48,
+        63.22
+      ],
+      "total": 1125621763793,
+      "total_ratio_to_revenue": 62.93
+    },
+    {
+      "key": "gross_profit",
+      "label": "سود ناخالص",
+      "type": "profit",
+      "values": [
+        106857643472,
+        135803341859,
+        284077764897,
+        136292830965
+      ],
+      "ratios_to_revenue": [
+        38.34,
+        32.28,
+        39.52,
+        36.78
+      ],
+      "total": 663031581193,
+      "total_ratio_to_revenue": 37.07
+    },
+    {
+      "key": "sales_admin_expenses",
+      "label": "هزینه های فروش، اداری و عمومی",
+      "type": "expense",
+      "values": [
+        18710873601,
+        16678346964,
+        53163733459,
+        41669717369
+      ],
+      "ratios_to_revenue": [
+        6.71,
+        3.96,
+        7.4,
+        11.25
+      ],
+      "total": 130222671393,
+      "total_ratio_to_revenue": 7.28
+    },
+    {
+      "key": "salary_expense",
+      "label": "هزینه حقوق",
+      "type": "expense",
+      "values": [
+        28351294955,
+        23737367592,
+        24675825573,
+        37764787070
+      ],
+      "ratios_to_revenue": [
+        10.17,
+        5.64,
+        3.43,
+        10.19
+      ],
+      "total": 114529275190,
+      "total_ratio_to_revenue": 6.4
+    },
+    {
+      "key": "other_income",
+      "label": "سایر درآمدها",
+      "type": "revenue",
+      "values": [
+        1262633483,
+        4996673829,
+        98434868347,
+        841087493
+      ],
+      "total": 105535263152
+    },
+    {
+      "key": "other_expenses",
+      "label": "سایر هزینه ها",
+      "type": "expense",
+      "values": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "total": 0
+    },
+    {
+      "key": "operating_profit",
+      "label": "سود عملیاتی",
+      "type": "profit",
+      "values": [
+        61058108399,
+        124121668724,
+        329348899785,
+        95464201089
+      ],
+      "ratios_to_revenue": [
+        21.91,
+        29.51,
+        45.82,
+        25.76
+      ],
+      "total": 609992877997,
+      "total_ratio_to_revenue": 34.1
+    },
+    {
+      "key": "finance_cost",
+      "label": "هزینه های مالی",
+      "type": "expense",
+      "values": [
+        353951554,
+        49264649,
+        830514069,
+        925877392
+      ],
+      "ratios_to_revenue": [
+        0.13,
+        0.01,
+        0.12,
+        0.25
+      ],
+      "total": 2159607664,
+      "total_ratio_to_revenue": 0.12
+    },
+    {
+      "key": "non_operating_income_expenses",
+      "label": "سایر درآمدها و هزینه های غیرعملیاتی",
+      "type": "other",
+      "values": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "total": 0
+    },
+    {
+      "key": "continuing_profit_before_tax",
+      "label": "سود عملیات قبل از مالیات",
+      "type": "profit",
+      "values": [
+        60704156845,
+        124072404075,
+        328518385716,
+        94538323697
+      ],
+      "ratios_to_revenue": [
+        21.78,
+        29.49,
+        45.71,
+        25.51
+      ],
+      "total": 607833270333,
+      "total_ratio_to_revenue": 33.98
+    }
+  ]
+}

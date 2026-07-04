@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>گزارش فصلی سود و زیان</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --border: #e4e7ec;
+      --primary: #2563eb;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --purple: #7c3aed;
+      --cyan: #0891b2;
+      --shadow: 0 14px 34px rgba(23, 32, 51, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Tahoma, Arial, sans-serif;
+      line-height: 1.75;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      color: white;
+      padding: 36px 24px;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: -28px auto 40px;
+      padding: 0 18px;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    .subtitle {
+      color: rgba(255, 255, 255, 0.78);
+      margin: 8px 0 0;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .kpis {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-bottom: 18px;
+    }
+
+    .two-col {
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .kpi-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .kpi-value {
+      font-size: 23px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .kpi-note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .chart {
+      width: 100%;
+      min-height: 320px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .legend span::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-left: 6px;
+      background: var(--color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 10px 8px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 600;
+      background: #f8fafc;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .table-wrap { overflow-x: auto; }
+
+    .structure-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .structure-head,
+    .structure-row {
+      display: grid;
+      grid-template-columns: minmax(130px, 1.1fr) minmax(150px, 0.9fr) minmax(90px, 0.5fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .structure-head {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .structure-row {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .structure-row:last-child { border-bottom: 0; }
+
+    .structure-label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .structure-value {
+      color: var(--text);
+      direction: ltr;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .structure-ratio {
+      color: var(--muted);
+      direction: ltr;
+      text-align: left;
+      font-size: 12px;
+    }
+
+    .structure-bar {
+      grid-column: 1 / -1;
+      height: 10px;
+      border-radius: 999px;
+      background: #eef2f7;
+      overflow: hidden;
+    }
+
+    .structure-fill {
+      height: 100%;
+      width: var(--width);
+      border-radius: inherit;
+      background: var(--color);
+    }
+
+    .insights {
+      margin: 0;
+      padding-right: 20px;
+    }
+
+    .insights li { margin-bottom: 10px; }
+
+    .section { margin-top: 18px; }
+
+    @media (max-width: 900px) {
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .two-col { grid-template-columns: 1fr; }
+      main { margin-top: -16px; }
+    }
+
+    @media (max-width: 560px) {
+      .kpis { grid-template-columns: 1fr; }
+      .structure-head { display: none; }
+      .structure-row { grid-template-columns: 1fr; }
+      .structure-value,
+      .structure-ratio { text-align: right; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>گزارش فصلی سود و زیان</h1>
+    <p class="subtitle">سال مالی 1404 - واحد: میلیون ریال</p>
+  </header>
+
+  <main>
+    <section class="grid kpis" id="kpis"></section>
+
+    <section class="grid two-col section">
+      <article class="card">
+        <h2>درآمد، سود ناخالص و سود عملیات قبل از مالیات</h2>
+        <div id="profitChart" class="chart"></div>
+        <div class="legend">
+          <span style="--color: var(--primary)">درآمد عملیاتی</span>
+          <span style="--color: var(--cyan)">سود ناخالص</span>
+          <span style="--color: var(--success)">سود عملیاتی</span>
+          <span style="--color: var(--purple)">سود عملیات قبل از مالیات</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>خلاصه مدیریتی</h2>
+        <ul class="insights" id="insights"></ul>
+      </article>
+    </section>
+
+    <section class="grid two-col section">
+      <article class="card">
+        <h2>روند حاشیه‌ها نسبت به درآمد</h2>
+        <div id="marginChart" class="chart"></div>
+        <div class="legend">
+          <span style="--color: var(--cyan)">حاشیه سود ناخالص</span>
+          <span style="--color: var(--success)">حاشیه سود عملیاتی</span>
+          <span style="--color: var(--purple)">حاشیه سود عملیات قبل از مالیات</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>فشار هزینه‌ها به تفکیک فصل</h2>
+        <div id="expenseRatioChart" class="chart"></div>
+        <div class="legend">
+          <span style="--color: var(--danger)">بهای تمام شده</span>
+          <span style="--color: var(--warning)">فروش، اداری و عمومی</span>
+          <span style="--color: var(--primary)">حقوق</span>
+          <span style="--color: var(--muted)">هزینه مالی</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid two-col section">
+      <article class="card">
+        <h2>سایر درآمدها و اثر آن بر سود عملیاتی</h2>
+        <div id="otherIncomeChart" class="chart"></div>
+        <div class="legend">
+          <span style="--color: var(--purple)">سایر درآمدها</span>
+          <span style="--color: var(--success)">سود عملیاتی</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>ساختار کل دوره</h2>
+        <div id="totalStructureChart" class="chart"></div>
+      </article>
+    </section>
+
+    <section class="card section">
+      <h2>جدول شاخص‌های اصلی</h2>
+      <div class="table-wrap">
+        <table id="metricsTable">
+          <thead>
+            <tr>
+              <th>فصل</th>
+              <th>درآمد عملیاتی</th>
+              <th>بهای تمام شده</th>
+              <th>نسبت بهای تمام شده</th>
+              <th>سود ناخالص</th>
+              <th>حاشیه ناخالص</th>
+              <th>هزینه فروش/اداری</th>
+              <th>هزینه حقوق</th>
+              <th>سایر درآمدها</th>
+              <th>سود عملیاتی</th>
+              <th>حاشیه عملیاتی</th>
+              <th>سود عملیات قبل از مالیات</th>
+              <th>حاشیه سود عملیات قبل از مالیات</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const data = {
+      unit: "میلیون ریال",
+      seasons: ["بهار", "تابستان", "پاییز", "زمستان"],
+      revenue: [278677733494, 420679574947, 718774897242, 370521139303],
+      cogs: [171820090022, 284876233088, 434697132345, 234228308338],
+      grossProfit: [106857643472, 135803341859, 284077764897, 136292830965],
+      salesAdmin: [18710873601, 16678346964, 53163733459, 41669717369],
+      salary: [28351294955, 23737367592, 24675825573, 37764787070],
+      otherIncome: [1262633483, 4996673829, 98434868347, 841087493],
+      otherExpenses: [0, 0, 0, 0],
+      operatingProfit: [61058108399, 124121668724, 329348899785, 95464201089],
+      financeCost: [353951554, 49264649, 830514069, 925877392],
+      nonOperatingIncomeExpenses: [0, 0, 0, 0],
+      continuingProfitBeforeTax: [60704156845, 124072404075, 328518385716, 94538323697]
+    };
+
+    const colors = {
+      revenue: "#2563eb",
+      gross: "#0891b2",
+      operating: "#16a34a",
+      beforeTax: "#7c3aed",
+      cogs: "#dc2626",
+      salesAdmin: "#d97706",
+      salary: "#2563eb",
+      finance: "#667085",
+      otherIncome: "#7c3aed",
+      muted: "#667085",
+      grid: "#e4e7ec"
+    };
+
+    const sum = (items) => items.reduce((acc, item) => acc + item, 0);
+    const pct = (value, base) => (base ? (value / base) * 100 : 0);
+    const fmt = (value) => new Intl.NumberFormat("fa-IR").format(Math.round(value));
+    const fmtPct = (value) => `${new Intl.NumberFormat("fa-IR", { maximumFractionDigits: 1 }).format(value)}٪`;
+
+    function getTotals() {
+      return {
+        revenue: sum(data.revenue),
+        cogs: sum(data.cogs),
+        grossProfit: sum(data.grossProfit),
+        salesAdmin: sum(data.salesAdmin),
+        salary: sum(data.salary),
+        otherIncome: sum(data.otherIncome),
+        operatingProfit: sum(data.operatingProfit),
+        financeCost: sum(data.financeCost),
+        continuingProfitBeforeTax: sum(data.continuingProfitBeforeTax)
+      };
+    }
+
+    function kpiCards() {
+      const totals = getTotals();
+      const bestSeasonIndex = data.continuingProfitBeforeTax.indexOf(Math.max(...data.continuingProfitBeforeTax));
+      const highestCostSeasonIndex = data.cogs.map((value, i) => pct(value, data.revenue[i])).indexOf(Math.max(...data.cogs.map((value, i) => pct(value, data.revenue[i]))));
+      const cards = [
+        ["درآمد عملیاتی کل", fmt(totals.revenue), data.unit],
+        ["حاشیه سود ناخالص کل", fmtPct(pct(totals.grossProfit, totals.revenue)), "سود ناخالص / درآمد"],
+        ["حاشیه سود عملیاتی کل", fmtPct(pct(totals.operatingProfit, totals.revenue)), "سود عملیاتی / درآمد"],
+        ["حاشیه سود عملیات قبل از مالیات", fmtPct(pct(totals.continuingProfitBeforeTax, totals.revenue)), "سود عملیات / درآمد"],
+        ["بهترین فصل سود عملیات قبل از مالیات", data.seasons[bestSeasonIndex], fmt(data.continuingProfitBeforeTax[bestSeasonIndex])],
+        ["بالاترین فشار بهای تمام شده", data.seasons[highestCostSeasonIndex], fmtPct(pct(data.cogs[highestCostSeasonIndex], data.revenue[highestCostSeasonIndex]))]
+      ];
+
+      document.getElementById("kpis").innerHTML = cards.map(([label, value, note]) => `
+        <article class="card">
+          <div class="kpi-label">${label}</div>
+          <div class="kpi-value">${value}</div>
+          <div class="kpi-note">${note}</div>
+        </article>
+      `).join("");
+    }
+
+    function insights() {
+      const totals = getTotals();
+      const autumn = data.seasons.indexOf("پاییز");
+      const summer = data.seasons.indexOf("تابستان");
+      const winter = data.seasons.indexOf("زمستان");
+      const items = [
+        `پاییز با ${fmtPct(pct(data.revenue[autumn], totals.revenue))} از درآمد کل، بیشترین سهم درآمد و بالاترین سود عملیات قبل از مالیات را دارد.`,
+        `حاشیه سود عملیات قبل از مالیات از ${fmtPct(pct(data.continuingProfitBeforeTax[summer], data.revenue[summer]))} در تابستان به ${fmtPct(pct(data.continuingProfitBeforeTax[autumn], data.revenue[autumn]))} در پاییز رسیده است.`,
+        `نسبت بهای تمام شده در تابستان ${fmtPct(pct(data.cogs[summer], data.revenue[summer]))} است و نسبت به سایر فصل‌ها فشار بیشتری روی سود ناخالص ایجاد کرده است.`,
+        `هزینه فروش، اداری و عمومی در زمستان به ${fmtPct(pct(data.salesAdmin[winter], data.revenue[winter]))} از درآمد رسیده و نسبت به فصل‌های دیگر بالاتر است.`,
+        `سایر درآمدها در پاییز ${fmt(data.otherIncome[autumn])} ${data.unit} است و بخش مهمی از جهش سود عملیاتی همان فصل را توضیح می‌دهد.`
+      ];
+      document.getElementById("insights").innerHTML = items.map((item) => `<li>${item}</li>`).join("");
+    }
+
+    function groupedBarChart(containerId, series) {
+      const width = 920;
+      const height = 340;
+      const pad = { top: 24, right: 48, bottom: 52, left: 34 };
+      const chartW = width - pad.left - pad.right;
+      const chartH = height - pad.top - pad.bottom;
+      const maxValue = Math.max(...series.flatMap((item) => item.values));
+      const groupW = chartW / data.seasons.length;
+      const barW = groupW / (series.length + 1.2);
+      const y = (value) => pad.top + chartH - (value / maxValue) * chartH;
+
+      const grid = [0, 0.25, 0.5, 0.75, 1].map((ratio) => {
+        const gy = pad.top + chartH - ratio * chartH;
+        return `<line x1="${pad.left}" x2="${width - pad.right}" y1="${gy}" y2="${gy}" stroke="${colors.grid}" />
+          <text x="${width - pad.right + 8}" y="${gy + 4}" fill="${colors.muted}" font-size="11">${fmt(maxValue * ratio)}</text>`;
+      }).join("");
+
+      const bars = data.seasons.map((season, i) => {
+        const x0 = pad.left + i * groupW + barW * 0.45;
+        const rects = series.map((item, j) => {
+          const value = item.values[i];
+          const x = x0 + j * barW;
+          const h = chartH - (y(value) - pad.top);
+          return `<rect x="${x}" y="${y(value)}" width="${barW * 0.72}" height="${h}" rx="6" fill="${item.color}">
+            <title>${item.label} ${season}: ${fmt(value)}</title>
+          </rect>`;
+        }).join("");
+        return rects + `<text x="${pad.left + i * groupW + groupW / 2}" y="${height - 16}" text-anchor="middle" fill="${colors.muted}" font-size="13">${season}</text>`;
+      }).join("");
+
+      document.getElementById(containerId).innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار ستونی فصل‌ها">
+          ${grid}
+          ${bars}
+        </svg>
+      `;
+    }
+
+    function lineChart(containerId, series, maxValue) {
+      const width = 900;
+      const height = 330;
+      const pad = { top: 24, right: 46, bottom: 48, left: 34 };
+      const chartW = width - pad.left - pad.right;
+      const chartH = height - pad.top - pad.bottom;
+      const x = (i) => pad.left + (i / (data.seasons.length - 1)) * chartW;
+      const y = (value) => pad.top + chartH - (value / maxValue) * chartH;
+
+      const grid = [0, 0.25, 0.5, 0.75, 1].map((ratio) => {
+        const gy = pad.top + chartH - ratio * chartH;
+        return `<line x1="${pad.left}" x2="${width - pad.right}" y1="${gy}" y2="${gy}" stroke="${colors.grid}" />
+          <text x="${width - pad.right + 8}" y="${gy + 4}" fill="${colors.muted}" font-size="11">${fmtPct(maxValue * ratio)}</text>`;
+      }).join("");
+
+      const lines = series.map((item) => {
+        const points = item.values.map((value, i) => `${x(i)},${y(value)}`).join(" ");
+        const dots = item.values.map((value, i) => `
+          <circle cx="${x(i)}" cy="${y(value)}" r="5" fill="${item.color}">
+            <title>${item.label} ${data.seasons[i]}: ${fmtPct(value)}</title>
+          </circle>
+        `).join("");
+        return `<polyline points="${points}" fill="none" stroke="${item.color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />${dots}`;
+      }).join("");
+
+      const labels = data.seasons.map((season, i) => `<text x="${x(i)}" y="${height - 14}" text-anchor="middle" fill="${colors.muted}" font-size="13">${season}</text>`).join("");
+      document.getElementById(containerId).innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار روند حاشیه‌ها">${grid}${lines}${labels}</svg>`;
+    }
+
+    function stackedExpenseRatioChart() {
+      const width = 520;
+      const height = 330;
+      const pad = { top: 26, right: 42, bottom: 52, left: 30 };
+      const chartH = height - pad.top - pad.bottom;
+      const barW = 64;
+      const maxPct = 90;
+      const parts = [
+        { label: "بهای تمام شده", values: data.cogs, color: colors.cogs },
+        { label: "فروش، اداری و عمومی", values: data.salesAdmin, color: colors.salesAdmin },
+        { label: "حقوق", values: data.salary, color: colors.salary },
+        { label: "هزینه مالی", values: data.financeCost, color: colors.finance }
+      ];
+
+      const bars = data.seasons.map((season, i) => {
+        const x = pad.left + 48 + i * 105;
+        let yCursor = pad.top + chartH;
+        let totalRatio = 0;
+        const rects = parts.map((part) => {
+          const ratio = pct(part.values[i], data.revenue[i]);
+          totalRatio += ratio;
+          const h = (ratio / maxPct) * chartH;
+          yCursor -= h;
+          return `<rect x="${x}" y="${yCursor}" width="${barW}" height="${h}" fill="${part.color}">
+            <title>${part.label} ${season}: ${fmtPct(ratio)}</title>
+          </rect>`;
+        }).join("");
+        return `${rects}
+          <text x="${x + barW / 2}" y="${yCursor - 8}" text-anchor="middle" fill="${colors.muted}" font-size="12">${fmtPct(totalRatio)}</text>
+          <text x="${x + barW / 2}" y="${height - 18}" text-anchor="middle" fill="${colors.muted}" font-size="13">${season}</text>`;
+      }).join("");
+
+      const grid = [0, 30, 60, 90].map((value) => {
+        const y = pad.top + chartH - (value / maxPct) * chartH;
+        return `<line x1="${pad.left}" x2="${width - pad.right}" y1="${y}" y2="${y}" stroke="${colors.grid}" />
+          <text x="${width - pad.right + 8}" y="${y + 4}" fill="${colors.muted}" font-size="11">${fmtPct(value)}</text>`;
+      }).join("");
+
+      document.getElementById("expenseRatioChart").innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="نمودار فشار هزینه‌ها">${grid}${bars}</svg>`;
+    }
+
+    function totalStructureList(containerId, items, baseValue) {
+      const maxRatio = Math.max(...items.map((item) => pct(item.value, baseValue)));
+      const rows = items.map((item) => {
+        const ratio = pct(item.value, baseValue);
+        const width = maxRatio ? (ratio / maxRatio) * 100 : 0;
+        return `
+          <div class="structure-row">
+            <div class="structure-label">${item.label}</div>
+            <div class="structure-value">${fmt(item.value)}</div>
+            <div class="structure-ratio">${fmtPct(ratio)}</div>
+            <div class="structure-bar" aria-hidden="true">
+              <div class="structure-fill" style="--width: ${width}%; --color: ${item.color}"></div>
+            </div>
+          </div>
+        `;
+      }).join("");
+      document.getElementById(containerId).innerHTML = `
+        <div class="structure-list">
+          <div class="structure-head">
+            <span>عنوان</span>
+            <span>مبلغ کل</span>
+            <span>نسبت به درآمد</span>
+          </div>
+          ${rows}
+        </div>
+      `;
+    }
+
+    function metricsTable() {
+      const tbody = document.querySelector("#metricsTable tbody");
+      tbody.innerHTML = data.seasons.map((season, i) => `
+        <tr>
+          <td>${season}</td>
+          <td>${fmt(data.revenue[i])}</td>
+          <td>${fmt(data.cogs[i])}</td>
+          <td>${fmtPct(pct(data.cogs[i], data.revenue[i]))}</td>
+          <td>${fmt(data.grossProfit[i])}</td>
+          <td>${fmtPct(pct(data.grossProfit[i], data.revenue[i]))}</td>
+          <td>${fmt(data.salesAdmin[i])}</td>
+          <td>${fmt(data.salary[i])}</td>
+          <td>${fmt(data.otherIncome[i])}</td>
+          <td>${fmt(data.operatingProfit[i])}</td>
+          <td>${fmtPct(pct(data.operatingProfit[i], data.revenue[i]))}</td>
+          <td>${fmt(data.continuingProfitBeforeTax[i])}</td>
+          <td>${fmtPct(pct(data.continuingProfitBeforeTax[i], data.revenue[i]))}</td>
+        </tr>
+      `).join("");
+    }
+
+    const totals = getTotals();
+    kpiCards();
+    insights();
+    groupedBarChart("profitChart", [
+      { label: "درآمد عملیاتی", values: data.revenue, color: colors.revenue },
+      { label: "سود ناخالص", values: data.grossProfit, color: colors.gross },
+      { label: "سود عملیاتی", values: data.operatingProfit, color: colors.operating },
+      { label: "سود عملیات قبل از مالیات", values: data.continuingProfitBeforeTax, color: colors.beforeTax }
+    ]);
+    lineChart("marginChart", [
+      { label: "حاشیه سود ناخالص", values: data.grossProfit.map((v, i) => pct(v, data.revenue[i])), color: colors.gross },
+      { label: "حاشیه سود عملیاتی", values: data.operatingProfit.map((v, i) => pct(v, data.revenue[i])), color: colors.operating },
+      { label: "حاشیه سود عملیات قبل از مالیات", values: data.continuingProfitBeforeTax.map((v, i) => pct(v, data.revenue[i])), color: colors.beforeTax }
+    ], 55);
+    stackedExpenseRatioChart();
+    groupedBarChart("otherIncomeChart", [
+      { label: "سایر درآمدها", values: data.otherIncome, color: colors.otherIncome },
+      { label: "سود عملیاتی", values: data.operatingProfit, color: colors.operating }
+    ]);
+    totalStructureList("totalStructureChart", [
+      { label: "درآمد عملیاتی", value: totals.revenue, color: colors.revenue },
+      { label: "بهای تمام شده", value: totals.cogs, color: colors.cogs },
+      { label: "سود ناخالص", value: totals.grossProfit, color: colors.gross },
+      { label: "هزینه فروش/اداری", value: totals.salesAdmin, color: colors.salesAdmin },
+      { label: "هزینه حقوق", value: totals.salary, color: colors.salary },
+      { label: "سایر درآمدها", value: totals.otherIncome, color: colors.otherIncome },
+      { label: "سود عملیاتی", value: totals.operatingProfit, color: colors.operating },
+      { label: "هزینه مالی", value: totals.financeCost, color: colors.finance },
+      { label: "سود عملیات قبل از مالیات", value: totals.continuingProfitBeforeTax, color: colors.beforeTax }
+    ], totals.revenue);
+    metricsTable();
+  </script>
+</body>
+</html>
